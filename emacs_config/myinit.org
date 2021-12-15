@@ -1,0 +1,153 @@
+#+STARTUP: overview 
+* Interface tweaks
+#+BEGIN_SRC emacs-lisp
+
+  (setq inhibit-startup-message t)
+  (tool-bar-mode -1)
+  (toggle-scroll-bar -1)
+  (menu-bar-mode -1)
+  (global-linum-mode t)
+  (show-paren-mode t)
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+  (setq-default cursor-type 'bar)
+  ;; (set-cursor-color "#ffffff") 
+
+  (set-frame-font "Fira Code Retina 10" nil t) 
+
+  (setq make-backup-files        nil)
+  (setq auto-save-list-file-name nil)
+  (setq auto-save-default        nil)
+
+#+END_SRC
+
+* Themes
+#+BEGIN_SRC emacs-lisp
+
+  ;; (use-package dracula-theme
+  ;;    :ensure t
+  ;;    :config (load-theme 'dracula t))
+
+  ;; (use-package cyberpunk-theme
+  ;;    :ensure t
+  ;;    :config (load-theme 'cyberpunk t))
+
+  (use-package monokai-pro-theme
+     :ensure t
+     :config (load-theme 'monokai-pro-classic t))
+
+  ;; (use-package color-theme-sanityinc-tomorrow
+  ;;   :ensure t
+  ;;   :config (load-theme 'sanityinc-tomorrow-night t))
+
+  ;; (use-package zenburn-theme
+  ;;   :ensure t
+  ;;   :config (load-theme 'zenburn t))
+
+#+END_SRC
+
+* Search and buffers
+#+BEGIN_SRC emacs-lisp
+
+  (use-package ace-window
+    :ensure t
+    :init
+    (progn
+      (custom-set-faces
+       '(aw-leading-char-face
+	 ((t (:inherit ace-jump-face-foreground :height 2.0)))))
+      (global-set-key [remap other-window] 'ace-window)))
+
+  (use-package which-key
+    :ensure t
+    :config (which-key-mode))
+
+  (use-package counsel
+    :ensure t)
+
+  (use-package swiper
+    :ensure try
+    :config
+    (progn
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (global-set-key "\C-s" 'swiper)
+      (global-set-key (kbd "C-c C-r") 'ivy-resume)
+      (global-set-key (kbd "<f6>") 'ivy-resume)
+      (global-set-key (kbd "M-x") 'counsel-M-x)
+      (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+      (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+      (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+      (global-set-key (kbd "<f1> l") 'counsel-load-library)
+      (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+      (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+      (global-set-key (kbd "C-c g") 'counsel-git)
+      (global-set-key (kbd "C-c j") 'counsel-git-grep)
+      (global-set-key (kbd "C-c k") 'counsel-ag)
+      (global-set-key (kbd "C-x l") 'counsel-locate)
+      (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+      (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
+#+END_SRC
+
+* Packages
+#+BEGIN_SRC emacs-lisp
+
+  (use-package try
+    :ensure t)
+
+#+END_SRC
+
+* ORG
+#+BEGIN_SRC emacs-lisp
+
+  (use-package org-bullets
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode t))))
+
+#+END_SRC
+
+* Common Lisp + company
+#+BEGIN_SRC emacs-lisp
+
+      (require 'cl-lib)
+      (setq-default inferior-lisp-program "sbcl")
+
+      (use-package slime-company
+	:after (slime company)
+	:config
+	(progn
+	  (setq slime-company-completion 'fuzzy
+		slime-company-after-completion 'slime-company-just-one-space)
+	  (define-key company-active-map (kbd "\C-n") 'company-select-next)
+	  (define-key company-active-map (kbd "\C-p") 'company-select-previous)
+	  (define-key company-active-map (kbd "\C-d") 'company-show-doc-buffer)
+	  (define-key company-active-map (kbd "M-.") 'company-show-location)))
+
+      (use-package slime
+	:ensure t
+	:config
+	(progn
+	  (slime-setup '(slime-asdf
+			 slime-fancy
+			 slime-company
+			 slime-indentation))
+	  (setq-default slime-net-coding-system 'utf-8-unix)))
+
+      (use-package smartparens
+	:ensure t
+	:init (smartparens-global-mode)
+	:config (progn (sp-local-pair
+			(list 'slime-repl-mode'lisp-mode) "`" nil :actions nil)
+		       (sp-local-pair
+			(list 'slime-repl-mode 'lisp-mode) "'" nil :actions nil)
+
+		       (sp-pair "'" nil :unless '(sp-point-after-word-p))))
+
+      (use-package rainbow-delimiters
+	:ensure t
+	:config
+	(add-hook 'lisp-mode-hook (lambda () (rainbow-delimiters-mode t))))
+#+END_SRC
+
