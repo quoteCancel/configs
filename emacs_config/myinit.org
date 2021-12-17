@@ -25,17 +25,17 @@
 * Themes
 #+BEGIN_SRC emacs-lisp
 
-  ;; (use-package dracula-theme
-  ;;    :ensure t
-  ;;    :config (load-theme 'dracula t))
+   (use-package dracula-theme
+      :ensure t
+      :config (load-theme 'dracula t))
 
   ;; (use-package cyberpunk-theme
   ;;    :ensure t
   ;;    :config (load-theme 'cyberpunk t))
 
-  (use-package monokai-pro-theme
-     :ensure t
-     :config (load-theme 'monokai-pro-classic t))
+  ;; (use-package monokai-pro-theme
+  ;;   :ensure t
+  ;;   :config (load-theme 'monokai-pro-classic t))
 
   ;; (use-package color-theme-sanityinc-tomorrow
   ;;   :ensure t
