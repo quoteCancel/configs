@@ -20,6 +20,7 @@ font pango:Roboto, Fira Sans Regular 8
 
 new_window pixel 3
 default_border pixel
+default_floating_border pixel
 gaps inner 7
 
 
