@@ -4,10 +4,8 @@
 	     '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
-(unless (and (package-installed-p 'use-package)
-	     (package-installed-p 'slime-company))
+(unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package)
-  (package-install 'slime-company)
+  (package-install 'use-package))
 
 (org-babel-load-file (expand-file-name "~/.emacs.d/myinit.org"))
